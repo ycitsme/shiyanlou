@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas ç²å­</title>
+    <style>
+        *{margin:0;padding:0;}
+        canvas{display: inline-block}
+        .pannel{
+            padding:10px;
+            display: inline-block;
+            width:250px;
+            font-size:0.8em;
+        }
+        .pannel input[type="number"]{
+            width:5em;
+        }
+
+        .default-config-pannel{
+            display: inline-block;
+        }
+        .default-config-pannel button{
+            height:32px;
+            line-height: 32px;
+            margin-top:5px;
+            padding:0 1em;
+        }
+    </style>
+</head>
+<body>
+<canvas id="stage" width="1024" height="738"></canvas>
+<div class="pannel">
+    <h3>åå°å¨åæ°éç½®ï¼ä¿®æ¹åæ°ï¼ç¶åç¹å»ç»é¢ï¼æ¯ç¹å»ä¸æ¬¡ç»é¢ï¼äº§çä¸ä¸ªæ°çåå°å¨ï¼</h3>
+    <div class="row">ç²å­æµåº¦:<input type="number" step="1"  value="100" id="maxAliveCount"/>ï¼1~1000ï¼æå¤§ç²å­å­æ´»æ°éï¼</div>
+    <div class="row">ç²å­å¯¿å½:<input type="number" step="0.1"  value="2.5" id="grainLife"/>ï¼0~5ï¼</div>
+    <div class="row">ç²å­å¯¿å½æ³¢å¨èå´:<input type="number" step="0.1"  value="1.5" id="grainLifeRange"/>ï¼0~5ï¼</div>
+
+    <div class="row">éæºå°ºå¯¸èå´æå°å°ºå¯¸:<input type="number" step="1"  value="40" id="minSize"/>ï¼1~100ï¼</div>
+    <div class="row">éæºå°ºå¯¸èå´æå¤§å°ºå¯¸:<input type="number" step="1"  value="60" id="maxSize"/>ï¼1~100ï¼</div>
+
+    <div class="row">ç²å­çææ¨ªååå¸èå´:<input type="number" step="1"  value="0" id="rangeX"/>ï¼0~768ï¼</div>
+    <div class="row">ç²å­çæçºµååå¸èå´:<input type="number" step="1"  value="0" id="rangeY"/>ï¼0~768ï¼</div>
+    <div class="row">åå§åéåº¦vx:<input type="number" step="1"  value="0" id="initVx"/>ï¼1~100ï¼</div>
+    <div class="row">vxæ³¢å¨èå´:<input type="number" step="1"  value="4" id="initVxRange"/>ï¼1~100ï¼</div>
+    <div class="row">åå§åéåº¦vy:<input type="number" step="1"  value="0" id="initVy"/>ï¼1~100ï¼</div>
+    <div class="row">vyæ³¢å¨èå´:<input type="number" step="1"  value="4" id="initVyRange"/>ï¼1~100ï¼</div>
+    <div class="row">æ³¢å¨æå°ç­å:<input type="number" step="0.01"  value="-0.15" id="minHeat"/>ï¼-0.5~0.5ï¼</div>
+    <div class="row">æ³¢å¨æå¤§ç­å:<input type="number" step="0.01"  value="-0.1" id="maxHeat"/>ï¼-0.5~0.5ï¼</div>
+    <div class="row">æ³¢å¨æå°é£å:<input type="number" step="0.01"  value="-0.15" id="minWind"/>ï¼-0.5~0.5ï¼</div>
+    <div class="row">æ³¢å¨æå¤§é£å:<input type="number" step="0.01"  value="-0.1" id="maxWind"/>ï¼-0.5~0.5ï¼</div>
+    <div class="row">æ¯å¦åå°åå°å¨ä½ç³»é£åå½±å:<input type="checkbox" checked id="ifByLaucherWind"/></div>
+    <div class="row">æ¯å¦åå°åå°å¨ä½ç³»ç­åå½±å:<input type="checkbox" checked id="ifByLaucherHeat"/></div>
+    <div class="row">æ¯å¦åå°ä¸çéåå½±å:<input type="checkbox"  id="ifByWorldGravity"/></div>
+    <div class="row">æ¯å¦åå°ä¸çé£åå½±å:<input type="checkbox"  id="ifByWorldWind" /></div>
+    <div class="row">æ¯å¦åå°ä¸çç­åå½±å:<input type="checkbox"  id="ifByWorldHeat" /></div>
+    <div class="default-config-pannel">
+        <h3>æ¨èè®¾ç½®ï¼éæ©è®¾ç½®ï¼ç¶åå±å¹ä¸ç¹ä¸ä¸~ï¼</h3>
+        <div class="row"><button id="btn_cfg1">ä¸éªï¼æ¨èå¨ç»é¢é ä¸æ¹ç¹å»ï¼</button></div>
+        <div class="row"><button id="btn_cfg2">æåç¹ç¹ï¼æ¨èå¨ç»é¢ä¸­é´åºåç¹å»ï¼</button></div>
+        <div class="row"><button id="btn_cfg3">å¦è³çé¬¼ç«ï¼åªéä¸ä¼ç¹åªéï¼</button></div>
+    </div>
+</div>
+
+<script src="js/lib/jquery-1.11.3.min.js"></script>
+<script src="js/lib/seajs.2.1.1.min.js"></script>
+<script>
+    seajs.config({});
+    seajs.use("./js/main.js");
+</script>
+<script>
+    function setConfig(minSize,maxSize,rangeX,rangeY,vx,vy,vxRange,vyRange,
+                       iflw,iflh,ifww,ifwh,ifwg,
+                       maxHeat,minHeat,maxWind,minWind,maxAliveCount,grainLife,grainLifeRange){
+        $('#minSize').val(minSize);
+        $('#maxSize').val(maxSize);
+        $('#rangeX').val(rangeX);
+        $('#rangeY').val(rangeY);
+        $('#initVx').val(vx);
+        $('#initVy').val(vy);
+        $('#initVxRange').val(vxRange);
+        $('#initVyRange').val(vyRange);
+        $("#ifByLaucherWind").prop('checked',iflw);
+        $("#ifByLaucherHeat").prop('checked',iflh);
+        $("#ifByWorldWind").prop('checked',ifww);
+        $("#ifByWorldHeat").prop('checked',ifwh);
+        $("#ifByWorldGravity").prop('checked',ifwg);
+        $('#minHeat').val(minHeat);
+        $('#maxHeat').val(maxHeat);
+        $('#minWind').val(minWind);
+        $('#maxWind').val(maxWind);
+        $('#maxAliveCount').val(maxAliveCount);
+        $("#grainLife").val(grainLife);
+        $("#grainLifeRange").val(grainLifeRange);
+    }
+    $('#btn_cfg1').on('click',function(){
+        setConfig(16,16,800,0,0,0,5,5,false,false,true,true,true,0,0,0,0,400,3,1.5);
+    });
+    $('#btn_cfg2').on('click',function(){
+        setConfig(4,8,768,1024,0,0,0,0,false,false,false,false,false,0,0,0,0,1000,2.5,1.5);
+    });
+    $('#btn_cfg3').on('click',function(){
+        setConfig(40,60,15,0,0,0,0,0,true,true,false,false,true,1.21,1.17,0,0,100,2.5,1.5);
+    });
+</script>
+</body>
+</html>
